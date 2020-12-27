@@ -1,0 +1,16 @@
+<ng-template [ngIf]="display" [ngIfElse]="loading">
+<div id="pi-chart" style="display: block">
+  <canvas baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"   width="800" height="450" ></canvas>
+</div>
+</ng-template>
+<ng-template #loading >
+  <div *ngIf="loading" class="d-flex justify-content-center" draggable="true" >
+    <div class="spinner-border  .m-15 "  role="status" >
+      <span class="sr-only">Loading...</span>
+ </div>
+  </div>
+
+ </ng-template>

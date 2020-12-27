@@ -1,0 +1,4 @@
+interface HostPiCahrtResponse {
+  hostName: string;
+  freeMem: number;
+}

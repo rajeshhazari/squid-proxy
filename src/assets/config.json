@@ -1,0 +1,4 @@
+{
+"sysStatsUrl": "api/sysstats/v1",
+"hostfile": "assets/hosts.json"
+}
