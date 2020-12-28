@@ -1,0 +1,16 @@
+{
+  "name": "web-squid-proxy",
+  "description": "Squid Proxy as Docker With Angular Dahsboard to manage block lists domainas, url and acls.",
+  "repository": "https://github.com/rajeshhazari/squid-proxy",
+  "keywords": [
+    "proxy",
+    "squid",
+    "squid-proxy",
+    "squidproxy",
+    "squigGuard",
+    "http",
+    "angular2",
+    "expressjs",
+    "node"
+  ]
+}
