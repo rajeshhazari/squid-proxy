@@ -1,22 +1,22 @@
+<app-loader></app-loader>
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-     
-      <h1>SimpleCRM</h1>
-      <span class="menu-spacer"></span>
-      <div>
-        <a mat-button [routerLink]="'/accounts'"> Accounts </a>
-        <a mat-button [routerLink]="'/create-account'"> Create Account </a>
-        <a mat-button [routerLink]="'/contacts'"> Contacts </a>
-        <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>
-        <a mat-button [routerLink]="'/activities'"> Activities </a>
-        <a mat-button [routerLink]="'/create-activity'"> Create Activity </a>
-  
-      </div>
+
+
+        <button mat-icon-button [routerLink]="'/home'">
+            <mat-icon aria-hidden="false" aria-label=" home icon" [routerLink]="'/home'">home</mat-icon>
+        </button>
+        <span>{{title}}</span> <span class="menu-spacer"></span>
+        <div>
+            <a mat-button [routerLink]="'/signin'">
+                <mat-icon aria-hidden="false" aria-label="Login">lock</mat-icon> Login 
+                </a>
+            <a mat-button [routerLink]="'/configs'">  <mat-icon aria-hidden="false" aria-label="subject">subject</mat-icon> Configs </a>
+            <a mat-button [routerLink]="'/update-config'"> <mat-icon aria-hidden="false" aria-label="subject">library_add</mat-icon> update Config </a>
+            <a mat-button [routerLink]="'/update-domains'"> <mat-icon aria-hidden="false" aria-label="subject">library_add</mat-icon> UpdateDomains </a>
+            <a mat-button [routerLink]="'/blocked-domains'">  <mat-icon aria-hidden="false" aria-label="subject">pageview</mat-icon> View Blocked logs </a>
+            <a mat-button [routerLink]="'/searchbl'">  <mat-icon aria-hidden="false" aria-label="subject">search</mat-icon> Seach Domains </a>
+
+        </div>
     </mat-toolbar-row>
-  
-    <mat-toolbar-row>
-        <span style="font-size: 12px;">SimpleCRM helps you easily manage your contacts</span>
-      </mat-toolbar-row>
-  </mat-toolbar>
-  
-  
+</mat-toolbar>

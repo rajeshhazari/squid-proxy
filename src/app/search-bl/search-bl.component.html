@@ -1,0 +1,43 @@
+<form (submit)="$event.preventDefault()">
+
+<mat-card  align="center">
+    <mat-card-content>
+        <h2 class="example-h2">Domain Url Search</h2>
+  
+      <section class="example-section">
+        <label class="example-margin">DomainUrl:</label>
+         <mat-form-field hintLabel="Enter url to unblock" appearance="fill">
+            <mat-label>Enter Domain Url to unblock</mat-label>
+            <input matInput #inputDomainurl placeholder="Ex. www.walgreens.com">
+            <mat-hint align="end">{{inputDomainurl.value?.length || 0}}/100</mat-hint>
+          </mat-form-field>
+        
+    
+    
+    
+
+        <mat-form-field >
+            <input matInput placeholder="Search" style="display:inline; width:200px">
+        </mat-form-field>
+        
+        
+    </section> 
+    <mat-horizontal-stepper></mat-horizontal-stepper>
+    <section>
+
+        <mat-form-field>
+            <mat-label>select Action</mat-label>
+            <mat-select #action value="update" (selectionChange)="selectAction()">
+              <mat-option value="update">update</mat-option>
+              <mat-option value="check">check</mat-option>
+              <mat-option value="delete">delete</mat-option>
+              
+            </mat-select>
+          </mat-form-field>
+            
+          <button id="submitId" mat-raised-button color="primary" (click)="submitUrl()">Submit</button>
+    </section>
+    </mat-card-content>
+  </mat-card>
+  </form>
+  

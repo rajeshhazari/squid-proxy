@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
 
 import { app } from '../app';
 const debug = require('debug')('proxy-core:server');

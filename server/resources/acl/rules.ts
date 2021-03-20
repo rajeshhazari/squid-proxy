@@ -1,48 +1,46 @@
 // TODO: write code to make these variable dynamic and managed
-const dest = [
-    "BL_adv",
-    "BL_drugs",
-    "BL_dating", "BL_porn","BL_sex","BL_sexLingeri","BL_spyware","BL_tracker"
+const dest = [ 'BL_adv', 'BL_drugs', 'BL_dating', 'BL_porn', 'BL_sex', 'BL_sexLingeri', 'BL_spyware', 'BL_tracker'];
 
-];
-const aclCategoty = ["local", "default"];
+const aclCategory = ['local', 'default'];
 
 const catergoryRules = {
-    "local" : ["!BL_adv",
-                "!BL_drugs",
-                "!BL_dating", "!BL_porn","!BL_sex","!BL_sexLingeri","!BL_spyware","!BL_tracker", "all"],
-    "default": ["!BL_adv",
-                "!BL_drugs",
-                "!BL_dating", "!BL_spyware","!BL_tracker", "all"]
-}
+    local : ['!BL_adv',
+                '!BL_drugs',
+                '!BL_dating', '!BL_porn', '!BL_sex', '!BL_sexLingeri', '!BL_spyware', '!BL_tracker', 'all'],
+    default: ['!BL_adv',
+                '!BL_drugs',
+                '!BL_dating', '!BL_spyware', '!BL_tracker', 'all']
+};
 
 class SquidGuardSource {
-    name:String;
-    ip:String
+    name: string;
+    ip: string;
 }
+
 class Destinations {
-    domainList:String;
-    urlList:String;
-    log:String;
+    domainList: string;
+    urlList: string;
+    log: string;
 
     constructor() {}
 }
+
 class SquidGuardConfSchema {
-    
-    dbhome:String;
-    logdir: String;
+
+    dbhome: string;
+    logdir: string;
     sources: SquidGuardSource;
     destinations: Destinations;
-    aclsDefined:any;
+    aclsDefined: any;
 
-    
-    squidGuardConfSchema(){}    
+
+    squidGuardConfSchema() {}
 }
 export const rules = {
-    "dest" : dest,
-    "aclCategoty" : aclCategoty,
-    "catergoryRules" : catergoryRules
-    
-}
+    dest,
+    aclCategory,
+    catergoryRules
+
+};
 
 

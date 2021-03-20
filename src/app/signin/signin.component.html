@@ -1,0 +1,31 @@
+<p>signin works!</p>
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Favorite food</mat-label>
+      <input matInput placeholder="Ex. Pizza" value="Sushi">
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <mat-label>Leave a comment</mat-label>
+      <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+    </mat-form-field>
+  </form>
+  
+<!-- <form [formGroup]="signinForm">
+    <mat-form-field>
+        <input matInput placeholder="Email" type="email" formControlName="email" [errorStateMatcher]="errorStateMatcher" required>
+        <mat-hint *ngIf="!emailInput.value">Enter your email address</mat-hint>
+        <mat-error *ngIf="!emailInput.valid">
+            {{getEmailInputError()}}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password" [errorStateMatcher]="errorStateMatcher" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-hint *ngIf="!passwordInput.value">Enter your password</mat-hint>
+        <mat-error *ngIf="!passwordInput.valid">
+            {{getPasswordInputError()}}
+        </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Sign In</button>
+  </form> -->

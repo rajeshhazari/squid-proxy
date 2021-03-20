@@ -1,13 +1,19 @@
 import * as express from 'express';
 import * as path from 'path';
 import { aclRulesRouter } from './routes/aclrules';
+import { checkAvialability } from './routes/check-avialability';
 import { configRouter } from './routes/config';
 import { domainSearchRouter } from './routes/domain-search';
 import { indexRouter } from './routes/index';
 import { loginRouter } from './routes/login';
 import { protectedRouter } from './routes/protected';
 import { aclScriptUpdateRouter } from './routes/update-script';
-const cookie =  require('cookie');
+
+const project = process.argv[2] || 'app';
+const bodyParser = require('body-parser');
+const log = console.log;
+const cookieParser = require('cookie-parser');
+const qs = require('qs');
 
 
 const debug = require('debug')('proxy-core:server');
@@ -22,11 +28,14 @@ const app: express.Application = express();
 
 
 // app.use(logger('dev'));
+app.set(qs, true);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookie);
+app.use(cookieParser());
 
 app.disable('x-powered-by');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
 // api routes
@@ -37,6 +46,7 @@ app.use('/acl/rules', aclRulesRouter);
 app.use('/config', configRouter);
 app.use('/search', domainSearchRouter);
 app.use('/process/update', aclScriptUpdateRouter);
+app.use('/walgreens/checkAvailability', checkAvialability);
 
 if (app.get('env') === 'production') {
 

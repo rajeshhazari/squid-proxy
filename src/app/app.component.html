@@ -1,7 +1,21 @@
-  <!-- Add your site or application content here -->
-  <app-header></app-header>
-
-  <p>Hello world! This is HTML5 Boilerplate.</p>
+<!-- Add your site or application content here -->
+<app-header></app-header>
 
 
-  <app-footer></app-footer>
+<div class="container mat-card">
+<!-- 
+  <mat-toolbar-row>
+
+    <div style="text-align:center">
+      <h3>
+        Welcome to {{title}}!
+      </h3>
+    </div>
+  </mat-toolbar-row>
+-->
+<router-outlet>
+  <div *ngIf="isLoading" ><mat-spinner></mat-spinner></div>
+</router-outlet>
+</div>
+
+<app-footer></app-footer>
