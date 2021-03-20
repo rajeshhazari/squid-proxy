@@ -1,0 +1,53 @@
+pipeline {
+    agent {
+        docker 
+    }
+    options {
+        skipStagesAfterUnstable()
+    }
+    environment {
+    // No environment variables specified
+        CI = 'true';
+        appName = 'web-squid-proxy'
+    }
+    parameters {
+        booleanParam(defaultValue: true, description: 'Deploy', name: 'deploy')
+        string(defaultValue: "angular9-ts-branch1", description: 'Branch to build', name: 'branch')
+
+    }
+    stages {
+        stage('Build') {
+            steps {
+                deleteDir()
+                checkout scm
+                sh 'cd CICD'
+                sh " docker build --tag $appName:$BUILD_NUMBER ."
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'node --version'
+            }
+        }
+        stage('deploy') {
+            steps {
+                sh """ 
+                    docker stop $appName && docker rm $appName 
+                    docker run --name $appName -p 4100:4100 $appName:$BUILD_NUMBER npm start &
+                    
+                    """
+                
+            }
+        }
+    }
+    post {
+        success {
+            sh "Build Success: echo 'Send mail on success'"
+            // mail to:"me@example.com", subject:"SUCCESS: ${currentBuild.fullDisplayName}", body: "Yay, we passed."
+        }
+    failure {
+        sh "Build failed : echo 'Send mail on failure'"
+        // mail to:"me@example.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Boo, we failed."
+        }
+    }
+}
