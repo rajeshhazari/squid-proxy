@@ -45,7 +45,7 @@ def getEnvContainerIdForName( name , env) {
 
 pipeline {
     agent {
-        docker 
+        any 
     }
     options {
         skipStagesAfterUnstable()
