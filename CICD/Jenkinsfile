@@ -78,7 +78,12 @@ pipeline {
                 checkout scm
                 checkout([$class: 'GitSCM', branches: [[name: '${BRANCH_NAME}'], [name: '**/angular9-ts-branch1']], doGenerateSubmoduleConfigurations: false,
                           extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'RH-Transcribe-app-github-creds', url: 'https://github.com/rajeshhazari/squid-proxy.git']]])
-                sh ' chmod +x ${WORKSPACE}/CICD/scripts/*.sh  '
+                sh """ 
+                    if -d ${WORKSPACE}/CICD/scripts/*.sh
+                        then
+                        chmod +x ${WORKSPACE}/CICD/scripts/*.sh  
+                    fi
+                    """
             }
         }
         stage("Get latest git tag") {
@@ -109,8 +114,8 @@ pipeline {
                 sh """
                     ls -lrth /opt/apps/ssl  
                     mkdir ssl
-                    cp /opt/apps/ssl ssl/ 
-                    cd CICD
+                    cp /opt/apps/ssl/* ssl/ 
+                    cd ${WORKSPACE}/CICD
                     docker build --tag $appName:$BUILD_NUMBER .
                     
                     """
