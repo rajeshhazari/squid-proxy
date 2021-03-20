@@ -44,9 +44,7 @@ def getEnvContainerIdForName( name , env) {
 }
 
 pipeline {
-    agent {
-        any 
-    }
+    agent any
     options {
         skipStagesAfterUnstable()
     }
