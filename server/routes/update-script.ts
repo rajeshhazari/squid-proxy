@@ -47,10 +47,10 @@ aclScriptUpdateRouter.get('/db/file/update', function(req: Request, res: Respons
     req.accepts('json, text/plain');
     // Call your python script here.
     // I prefer using spawn from the child process module instead of the Python shell
-    const fname = decodeURI(req.params.filename);
+    let fname = decodeURI(req.params.filename);
     const domainname = req.query.domain;
 
-    const domaindbFileName = squidInstallProps.DATABASE.concat(req.query.filename);
+    const domaindbFileName = squidInstallProps.DATABASE.concat(fname);
 
     // update domain to db file using the script  update-squidguard-db.sh
     const updateScriptcmd = ' update-squidguard-db.sh append ' + fname + ' ' + domainname;

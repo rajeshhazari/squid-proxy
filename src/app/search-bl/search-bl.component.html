@@ -1,5 +1,6 @@
-<form (submit)="$event.preventDefault()">
+<div class="title">Domain URL Checker</div>
 
+<form  [formGroup]="domainUrlCheckForm">
 <mat-card  align="center">
     <mat-card-content>
         <h2 class="example-h2">Domain Url Search</h2>
@@ -8,7 +9,7 @@
         <label class="example-margin">DomainUrl:</label>
          <mat-form-field hintLabel="Enter url to unblock" appearance="fill">
             <mat-label>Enter Domain Url to unblock</mat-label>
-            <input matInput #inputDomainurl placeholder="Ex. www.walgreens.com">
+            <input matInput #inputDomainurl placeholder="Ex. www.walgreens.com" formControlName="url" >
             <mat-hint align="end">{{inputDomainurl.value?.length || 0}}/100</mat-hint>
           </mat-form-field>
         
@@ -17,27 +18,35 @@
     
 
         <mat-form-field >
-            <input matInput placeholder="Search" style="display:inline; width:200px">
+            <input matInput placeholder="Search" style="display:inline; width:200px" formControlName="keyword">
         </mat-form-field>
-        
-        
-    </section> 
-    <mat-horizontal-stepper></mat-horizontal-stepper>
-    <section>
-
+       
         <mat-form-field>
-            <mat-label>select Action</mat-label>
-            <mat-select #action value="update" (selectionChange)="selectAction()">
-              <mat-option value="update">update</mat-option>
-              <mat-option value="check">check</mat-option>
-              <mat-option value="delete">delete</mat-option>
-              
+            <mat-label>Choose if Url is blocked/unblock/update</mat-label>
+            <mat-select formControlName="action" >
+              <mat-option *ngFor="let action of actions" [value]="action" >
+                {{action}}
+              </mat-option>
             </mat-select>
           </mat-form-field>
-            
-          <button id="submitId" mat-raised-button color="primary" (click)="submitUrl()">Submit</button>
-    </section>
+      </section>
+      <section>  
+          <div class="form-button-row">     
+          <button id="submitId" mat-raised-button color="primary" 
+          [disabled]="!domainUrlCheckForm.valid" 
+                    (click)="submitUrl()">Submit</button>
+          <button
+                  id="reset-button" mat-raised-button color="primary"
+                  type="reset" (click)="resetForm()">
+                  Reset 
+                </button>
+            </div>
+            </section>
+
+            <mat-error *ngIf="domainUrlCheckForm.hasError('error_key')">
+                My custom error message
+            </mat-error>
+
     </mat-card-content>
-  </mat-card>
-  </form>
-  
+  </mat-card>  
+</form>

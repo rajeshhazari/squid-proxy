@@ -55,6 +55,24 @@ function appendValToDBFile(){
 }
 
 
+function removeValFromUnKnownDomainFile(){
+    v=$1
+    #if grep -Fxq "$v" $DATABASE$file
+    if grep -rnw $DATABASE"/*/domains"  -e "www.walgreens.com"
+    then
+        # domain if found
+        echo "$v"
+        echo -e "$WARN $v param already exists in $DATABASE$file "
+        return -1
+    else
+        # code if not found
+        more $DATABASE$file | egrep $v
+        echo "$v" | tee -a $DATABASE$file
+        return 0
+    fi
+}
+
+
 if [ $cmd == "install" ]; then # Parse squidGuard config file
     if [ $2 == "squid" ]; then 
         apt-get update -y

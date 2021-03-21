@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { environment } from './../environments/environment';
+
 
 
 @Component({
@@ -10,6 +12,9 @@ export class AppComponent {
   title = 'web-squid-proxy';
   isLoading = false;
 
+  constructor() {
+    console.log(environment.production); // Logs false for default environment
+  }
 
   ngOnInit(): void {
     this.isLoading = false;

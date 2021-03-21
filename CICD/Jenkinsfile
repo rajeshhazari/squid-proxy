@@ -51,7 +51,7 @@ pipeline {
     environment {
     // No environment variables specified
         CI = 'true';
-        appName = 'WebSquidProxy'
+        APPLICATION = 'WebSquidProxy'
         HEALTHCHECK_URL="api/health"
         
     }
@@ -69,7 +69,35 @@ pipeline {
                         common.cancelPreviousBuilds();
                         }
                 */
-                sh 'printenv | sort'
+                sh '''
+                    VERSION=$(exec node -p "require('./package.json').version")
+                    APPLICATION=$(exec node -p "require('./package.json').name")
+                    if -z $VERSION
+                        then
+                        VERSION=1.0.0
+                    fi
+                    if -z $APPLICATION
+                        then
+                        APPLICATION=WebSquidProxy
+                    fi
+                    TAG=${APPLICATION}:${VERSION}
+                    VERSION=$VERSION-$(date +"%m%d%Y%M")
+                    echo "${APPLICATION}:${VERSION}  TAG:: ${TAG} can now be built"
+                    if [ -d ${WORKSPACE}/../ssl ]; then
+                    
+                        ls -lrth ${WORKSPACE}/../ssl  
+                        
+                    else 
+                        mkdir -pv ${WORKSPACE}/../ssl
+                        cd ${WORKSPACE}/../ssl
+                        openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes   -keyout devappserver.key -out devappserver.crt     -subj "/CN=devappserver-api.home.net"      -addext "subjectAltName=DNS:devappserver-api.home.net,DNS:devappserver-api,IP:192.168.0.1/24.192.168.0.23,IP:92.62.66.68"
+                        pwd
+                        ls -lrth
+                        cd ${WORKSPACE}
+                    fi
+                    
+                    
+                    '''
             }
             }
         stage('Checkout') {
@@ -78,12 +106,11 @@ pipeline {
                 checkout scm
                 checkout([$class: 'GitSCM', branches: [[name: '${BRANCH_NAME}'], [name: '**/angular9-ts-branch1']], doGenerateSubmoduleConfigurations: false,
                           extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'RH-Transcribe-app-github-creds', url: 'https://github.com/rajeshhazari/squid-proxy.git']]])
-                sh """ 
-                    if -d ${WORKSPACE}/CICD/scripts/*.sh
-                        then
+                sh ''' 
+                    if [[ -d ${WORKSPACE}/CICD && -d ${WORKSPACE}/CICD/scripts ]]; then
                         chmod +x ${WORKSPACE}/CICD/scripts/*.sh  
                     fi
-                    """
+                    '''
             }
         }
         stage("Get latest git tag") {
@@ -99,9 +126,9 @@ pipeline {
                         sh 'git fetch --tags'
                         TAGGED_COMMIT = sh(script: 'git rev-list --branches=master --tags --max-count=1', returnStdout: true).trim()
                         LATEST_TAG = sh(script: 'git describe --abbrev=0 --tags ${TAGGED_COMMIT}', returnStdout: true).trim()
-                        env.VERSION_NUMBER = sh(script: "echo ${LATEST_TAG} | cut -d 'v' -f 2", returnStdout: true).trim()
-                        echo "VERSION_NUMBER: ${VERSION_NUMBER}"
-                        sh 'echo "VERSION_NUMBER: ${VERSION_NUMBER}"'
+                        //env.VERSION = sh(script: "echo ${LATEST_TAG} | cut -d 'v' -f 2", returnStdout: true).trim()
+                        echo "VERSION: ${VERSION}"
+                        
                     }
                 }
             }
@@ -110,15 +137,14 @@ pipeline {
         stage('Build') {
             steps {
                 deleteDir()
-                checkout scm
-                sh """
-                    ls -lrth /opt/apps/ssl  
-                    mkdir ssl
-                    cp /opt/apps/ssl/* ssl/ 
+                sh '''
+                    mkdir ${WORKSPACE}/ssl
+                    cp ${WORKSPACE}/../ssl/*  ${WORKSPACE}/ssl/
+                    ls -lrth ${WORKSPACE}/ssl/
                     cd ${WORKSPACE}/CICD
-                    docker build --tag $appName:$BUILD_NUMBER .
+                    docker build  --tag ${APPLICATION}:${VERSION} .
                     
-                    """
+                    '''
             }
         }
         stage('Test') {
@@ -131,11 +157,12 @@ pipeline {
                 expression { BRANCH_NAME == "master" }
                 }
             steps {
-                sh """ 
-                    docker stop $appName && docker rm $appName 
-                    docker run --name $appName -p 4100:4100 $appName:$BUILD_NUMBER npm start &
+                sh ''' 
+                    echo "${APPLICATION}:${VERSION} can now be deployed." > ./build.txt
+                    docker stop ${APPLICATION} && docker rm ${APPLICATION} 
+                    docker run --name ${APPLICATION} -p 4100:4100 ${APPLICATION}:${VERSION} npm start &
                     
-                    """
+                    '''
                 
             }
         }
